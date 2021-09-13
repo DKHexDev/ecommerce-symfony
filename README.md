@@ -15,3 +15,9 @@ suivantes :
 ```bash
 DATABASE_URL=...
 ```
+
+Atention de bien créer la BDD :
+
+```bash
+php bin/console doctrine:database:create
+```
