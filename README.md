@@ -27,3 +27,19 @@ Et aussi, il faut synchroniser la BDD :
 ```bash
 php bin/console doctrine:migrations:migrate
 ```
+
+## La partie produits
+
+On va créer une entité Product :
+
+- Id (déjà fait par Symfony)
+- Nom (Le produit)
+- Slug (le-produit)
+- Description (Text)
+- Prix (decimal)
+- Date de création
+- Coup de coeur (Boolean)
+- Image du produit (peut être null)
+- Promotion (entier en pourcentage, peut être null)
+
+Ne pas oublier de créer les migrations et d'appliquer les migrations.
