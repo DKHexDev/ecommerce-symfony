@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Contact - {{ parent() }}{% endblock %}
+
+{% block body %}
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <div class="card-header bg-primary text-white"><i class="fa fa-envelope"></i> Contactez-nous.
+                </div>
+                <div class="card-body">
+                    {{ form_start(form) }} {# <form> #}
+                        {{ form_widget(form) }} {# Tous les champs #}
+
+                        <button class="btn btn-primary">Envoyer</button>
+                    {{ form_end(form) }} {# </form> #}
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-sm-4">
+            <div class="card bg-light mb-3">
+                <div class="card-header bg-success text-white text-uppercase"><i class="fa fa-home"></i> Adresse</div>
+                <div class="card-body">
+                    <p>3 rue des Champs Elysées</p>
+                    <p>75008 PARIS</p>
+                    <p>France</p>
+                    <p>Email : email@example.com</p>
+                    <p>Tel. +33 12 56 11 51 84</p>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
