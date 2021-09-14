@@ -44,7 +44,7 @@ class Product
      * @ORM\Column(type="decimal", precision=10, scale=2)
      * 
      * @Assert\NotBlank
-     * @Assert\Positive
+     * @Assert\Range(min=99.00, max=999.99)
      */
     private $price;
 
@@ -65,6 +65,8 @@ class Product
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     * 
+     * @Assert\Range(min=1, max=100)
      */
     private $promotion;
 
