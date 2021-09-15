@@ -36,13 +36,13 @@ class ProductType extends AbstractType
             ->add('liked', CheckboxType::class, [
                 'label' => 'Coup de coeur',
             ])
-            ->add('image', FileType::class, [
+            /*->add('image', FileType::class, [
                 'label' => 'Image',
                 'help' => 'Image de couverture du produit',
                 'attr' => [
                     'placeholder' => 'Image de couverture'
                 ]
-            ])
+            ])*/
             ->add('promotion', IntegerType::class, [
                 'label' => 'Promotion',
                 'help' => 'Insérer le montant de la promotion',

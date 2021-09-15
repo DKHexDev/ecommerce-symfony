@@ -170,4 +170,13 @@ class Product
 
         return $this;
     }
+
+    /**
+     * Renvoie le prix avec la promotion.
+     * On peut appeler la méthode dans Twig avec product.discountPrice
+     */
+    public function getDiscountPrice()
+    {
+        return $this->price * (1 - $this->promotion / 100);
+    }
 }
