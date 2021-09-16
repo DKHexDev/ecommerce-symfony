@@ -14,6 +14,8 @@
         {% endblock %}
     </head>
     <body>
+        {% include('partials/_header.html.twig') %}
+
         {% if block('banner_title') or block('banner_slogan') %}
             <section class="jumbotron text-center">
                 <div class="container">
@@ -23,7 +25,19 @@
             </section>
         {% endif %}
 
+        <div class="container">
+            {% for label, messages in app.flashes %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ label }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endfor %}
+        </div>
+
         {% block body %}{% endblock %}
+
+        {% include('partials/_footer.html.twig') %}
 
         {% block javascripts %}
             {#{{ encore_entry_script_tags('app') }}#}

@@ -3,6 +3,7 @@
 namespace App\DataFixtures;
 
 use App\Entity\Product;
+use App\Entity\Category;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
@@ -13,6 +14,14 @@ class AppFixtures extends Fixture
     {
         $faker = Factory::create('fr_FR');
 
+        for ($i = 0; $i < 10; $i++)
+        {
+            $category = new Category();
+            $category->setName($faker->sentence(3));
+            $category->setSlug($faker->slug());
+            $this->addReference('category-'.$i, $category);
+            $manager->persist($category);
+        }
 
         for ($i = 0; $i < 100; $i++)
         {
@@ -25,6 +34,7 @@ class AppFixtures extends Fixture
             $product->setLiked($faker->boolean(25));
             $product->setImage(null);
             $product->setPromotion($faker->numberBetween(1, 70));
+            $product->setCategory($this->getReference('category-'.rand(0, 9)));
             $manager->persist($product);
         }
 

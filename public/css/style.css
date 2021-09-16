@@ -17,6 +17,14 @@
     color: #343a40;
 }
 
+.card-product .card-title {
+    min-height: 60px;
+}
+
+.card-product .card-text {
+    min-height: 80px;
+}
+
 .add_to_cart_block .price {
     color: #c01508;
     text-align: center;

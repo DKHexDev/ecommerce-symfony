@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Product;
 use App\Form\ProductType;
+use App\Repository\ProductRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,13 +16,13 @@ class ProductController extends AbstractController
     /**
      * @Route("/product", name="product_list")
      */
-    public function list(): Response
+    public function list(ProductRepository $repository): Response
     {
         // On récupère les produits en BDD
-       $repository = $this->getDoctrine()->getRepository(Product::class);
+       //$repository = $this->getDoctrine()->getRepository(Product::class);
 
         // Tous les produits
-        $products = $repository->findAll();
+        $products = $repository->findAllWithJoin();
 
         return $this->render('product/index.html.twig', [
             'products' => $products,
@@ -45,16 +46,17 @@ class ProductController extends AbstractController
             // Si le name est MacBook Pro, le slug est macbook-pro
             $slug = $slugger->slug($product->getName())->lower();
             $product->setSlug($slug);
-            $product->setCreatedAt(new \DateTimeImmutable());
+            //$product->setCreatedAt(new \DateTimeImmutable());
         
             $manager = $this->getDoctrine()->getManager();
             $manager->persist($product);
             $manager->flush();
 
-            // On va rediriger vers la page de contact
-            $this->addFlash('success', 'Votre produit a été envoyé.');
+            // Message de succès pour informer l'utilisateur
+            $this->addFlash('success', 'Le produit a bien été créé.');
 
-            return $this->redirectToRoute('product');
+            // Redirection vers le nouveau produit /product/le-slug-du-produit
+            return $this->redirectToRoute('product_show', ['slug' => $product->getSlug()]);
         }
 
         return $this->render('product/create.html.twig', [

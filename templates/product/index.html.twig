@@ -2,22 +2,30 @@
 
 {% block title %}Liste des produits - {{ parent() }}{% endblock %}
 
+{% block banner_title %}Produits{% endblock %}
+{% block banner_slogan %}Liste de nos produits{% endblock %}
+
 {% block body %}
     
 <div class="container">
 	<div class="row">
         {% for product in products %}
             <div class="col-12 col-md-6 col-lg-4">
-                <div class="card">
+                <div class="card card-product">
                     <img class="card-img-top" src="https://dummyimage.com/600x400/55595c/fff" alt="Card image cap">
                     <div class="card-body">
                         <h4 class="card-title">
-                            <a href="product.html" title="View Product">{{ product.name }}</a>
+                            <a href="{{ path('product_show', {slug: product.slug}) }}" title="{{ product.name }}">
+                                {{ product.name }}
+                            </a>
                         </h4>
-                        <p class="card-text">{{ product.description }}</p>
+                        <p class="card-text">{{ product.description|u.truncate(80, '...', false) }}</p>
+                        <div class="mb-4">
+                            Catégorie : {{ product.category.name }}
+                        </div>
                         <div class="row">
                             <div class="col">
-                                <p class="btn btn-danger btn-block">{{ product.price }} &euro;</p>
+                                <p class="btn btn-danger btn-block">{{ product.price | format_currency('EUR') }}</p>
                             </div>
                             <div class="col">
                                 <a href="#" class="btn btn-success btn-block">Ajouter au panier</a>
