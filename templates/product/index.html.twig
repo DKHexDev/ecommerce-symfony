@@ -6,36 +6,86 @@
 {% block banner_slogan %}Liste de nos produits{% endblock %}
 
 {% block body %}
-    
+
 <div class="container">
-	<div class="row">
-        {% for product in products %}
-            <div class="col-12 col-md-6 col-lg-4">
-                <div class="card card-product">
-                    <img class="card-img-top" src="https://dummyimage.com/600x400/55595c/fff" alt="Card image cap">
-                    <div class="card-body">
-                        <h4 class="card-title">
-                            <a href="{{ path('product_show', {slug: product.slug}) }}" title="{{ product.name }}">
-                                {{ product.name }}
-                            </a>
-                        </h4>
-                        <p class="card-text">{{ product.description|u.truncate(80, '...', false) }}</p>
-                        <div class="mb-4">
-                            Catégorie : {{ product.category.name }}
-                        </div>
-                        <div class="row">
-                            <div class="col">
-                                <p class="btn btn-danger btn-block">{{ product.price | format_currency('EUR') }}</p>
-                            </div>
-                            <div class="col">
-                                <a href="#" class="btn btn-success btn-block">Ajouter au panier</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        {% endfor %}
-	</div>
+    <div class="row">
+		<div class="col-12 col-sm-3">
+			<div class="card bg-light mb-3">
+				<div class="card-header bg-primary text-white text-uppercase">
+					<i class="fa fa-list"></i>
+					Filtres</div>
+				<form action="" method="post">
+					<ul class="list-group">
+                    {% for color in colors %}
+						<li class="list-group-item">
+							<div class="form-check">
+								<input type="checkbox" name="color[]" value="{{ color.id }}" class="form-check-input" id="color-{{ color.id }}">
+								<label class="form-check-label" for="color-{{ color.id }}">
+                                    {{ color.name }}
+                                    <span class="d-inline-block" style="width: 25px; height: 25px; background-color: {{ color.name }};">&nbsp;</span>
+                                </label>
+							</div>
+						</li>
+                    {% endfor %}
+					</ul>
+				</form>
+			</div>
+			<div class="card bg-light mb-3">
+				<div class="card-header bg-primary text-white text-uppercase">
+					<i class="fa fa-list"></i>
+					Catégories</div>
+				<ul class="list-group category_block">
+                {% for category in categories | slice(5) %}     
+					<li class="list-group-item">
+						<a href="{{ path('category_show', {slug: category.slug}) }}">{{ category.name }}</a>
+					</li>
+                {% endfor %}
+				</ul>
+			</div>
+			<div class="card bg-light mb-3">
+				<div class="card-header bg-success text-white text-uppercase">Dernier produit</div>
+				<div class="card-body">
+					<img class="img-fluid" src="https://dummyimage.com/600x400/55595c/fff">
+					<h5 class="card-title mt-3">{{ lastProduct.name }}</h5>
+					<p class="card-text">{{ lastProduct.description | u.truncate(50, '...', false) }}</p>
+					<p class="bloc_left_price">{{ lastProduct.price | format_currency('EUR') }}</p>
+				</div>
+			</div>
+		</div>
+
+		<div class="col">
+			<div class="row">
+				{% for product in products %}
+					<div class="col-12 col-md-6 col-lg-4">
+						<div class="card card-product">
+							<img class="card-img-top" src="https://dummyimage.com/600x400/55595c/fff" alt="Card image cap">
+							<div class="card-body">
+								<h4 class="card-title">
+									<a href="{{ path('product_show', {slug: product.slug}) }}" title="{{ product.name }}">
+										{{ product.name }}
+									</a>
+								</h4>
+								<p class="card-text">{{ product.description|u.truncate(80, '...', false) }}</p>
+								<div class="mb-4">
+									Catégorie :
+									{{ product.category.name }}
+								</div>
+								<div class="row">
+									<div class="col">
+										<p class="btn btn-danger btn-block">{{ product.price | format_currency('EUR') }}</p>
+									</div>
+									<div class="col">
+										<a href="#" class="btn btn-success btn-block">Ajouter au panier</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				{% endfor %}
+			</div>
+		</div>
+    </div>
 </div>
 
 {% endblock %}
+

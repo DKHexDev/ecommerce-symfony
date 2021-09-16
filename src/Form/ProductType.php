@@ -50,6 +50,14 @@ class ProductType extends AbstractType
                     'placeholder' => 'Promotion'
                 ]
             ])
+            ->add('category', null, [
+                'choice_label' => 'name', // propriété name de la classe Category 
+            ])
+            ->add('color', null, [
+                'choice_label' => 'name',
+                'expanded' => true, // Checkboxes au lieu de select multiple
+                'multiple' => true,
+            ])
         ;
     }
 
