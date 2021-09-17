@@ -27,6 +27,9 @@
 							</div>
 						</li>
                     {% endfor %}
+						<li class="list-group-item">
+                            <button class="btn btn-primary btn-block">Filtrer</button>
+                        </li>
 					</ul>
 				</form>
 			</div>
@@ -45,7 +48,11 @@
 			<div class="card bg-light mb-3">
 				<div class="card-header bg-success text-white text-uppercase">Dernier produit</div>
 				<div class="card-body">
-					<img class="img-fluid" src="https://dummyimage.com/600x400/55595c/fff">
+					{% if lastProduct.image %}
+						<img class="img-fluid" src="{{ vich_uploader_asset(lastProduct, 'imageFile') }}">
+					{% else %}
+						<img class="img-fluid" src="https://dummyimage.com/600x400/55595c/fff">
+					{% endif %}
 					<h5 class="card-title mt-3">{{ lastProduct.name }}</h5>
 					<p class="card-text">{{ lastProduct.description | u.truncate(50, '...', false) }}</p>
 					<p class="bloc_left_price">{{ lastProduct.price | format_currency('EUR') }}</p>
@@ -58,7 +65,11 @@
 				{% for product in products %}
 					<div class="col-12 col-md-6 col-lg-4">
 						<div class="card card-product">
-							<img class="card-img-top" src="https://dummyimage.com/600x400/55595c/fff" alt="Card image cap">
+							{% if product.image %}
+								<img class="card-img-top" src="{{ vich_uploader_asset(product, 'imageFile') }}" alt="Card image cap">
+							{% else %}
+								<img class="card-img-top" src="https://dummyimage.com/600x400/55595c/fff" alt="Card image cap">
+							{% endif %}
 							<div class="card-body">
 								<h4 class="card-title">
 									<a href="{{ path('product_show', {slug: product.slug}) }}" title="{{ product.name }}">
@@ -67,8 +78,10 @@
 								</h4>
 								<p class="card-text">{{ product.description|u.truncate(80, '...', false) }}</p>
 								<div class="mb-4">
+								{% if product.category %}
 									Catégorie :
 									{{ product.category.name }}
+								{% endif %}
 								</div>
 								<div class="row">
 									<div class="col">
@@ -77,6 +90,14 @@
 									<div class="col">
 										<a href="#" class="btn btn-success btn-block">Ajouter au panier</a>
 									</div>
+										<div class="col mt-2">
+									{% if is_granted('edit', product) %}
+											<a href="{{ path('product_edit', {id: product.id}) }}" class="btn btn-secondary mr-3">Modifier</a>
+									{% endif %}
+									{% if is_granted('delete', product) %}
+											<a href="{{ path('product_delete', {id: product.id}) }}" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ?')" class="btn btn-danger">Supprimer</a>
+									{% endif %}
+										</div>
 								</div>
 							</div>
 						</div>

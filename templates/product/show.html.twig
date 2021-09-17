@@ -9,7 +9,10 @@
 
 <div class="container">
     <div class="mt-3 mb-3">
-        Catégorie {{ product.category.name }}
+		{% if product.category %}
+			Catégorie :
+			{{ product.category.name }}
+		{% endif %}
     </div>
 
     <div class="row">
@@ -18,7 +21,7 @@
             <div class="card bg-light mb-3">
                 <div class="card-body">
                     <a href="" data-toggle="modal" data-target="#productModal">
-                        <img class="img-fluid" src="https://dummyimage.com/800x800/55595c/fff" />
+                        <img class="img-fluid" src="{{ vich_uploader_asset(product, 'imageFile') }}" />
                         <p class="text-center">Zoom</p>
                     </a>
                 </div>
@@ -177,7 +180,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <img class="img-fluid" src="https://dummyimage.com/1200x1200/55595c/fff" />
+                <img class="img-fluid" src="{{ vich_uploader_asset(product, 'imageFile') }}" />
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

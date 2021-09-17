@@ -43,6 +43,8 @@ class ProductController extends AbstractController
      */
     public function productCreate(Request $request, SluggerInterface $slugger) {
 
+        $this->denyAccessUnlessGranted('ROLE_USER');
+
         $product = new Product();
 
         $createForm = $this->createForm(ProductType::class, $product);
@@ -56,6 +58,7 @@ class ProductController extends AbstractController
             $slug = $slugger->slug($product->getName())->lower();
             $product->setSlug($slug);
             //$product->setCreatedAt(new \DateTimeImmutable());
+            $product->setUser($this->getUser());
         
             $manager = $this->getDoctrine()->getManager();
             $manager->persist($product);
@@ -90,4 +93,42 @@ class ProductController extends AbstractController
         ]);
     }
 
+    /**
+     * @Route("/product/{id}/edit", name="product_edit")
+     */
+    public function edit(Product $product, Request $request)
+    {
+        $this->denyAccessUnlessGranted('edit', $product);
+
+        $form = $this->createForm(ProductType::class, $product);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid())
+        {
+            $this->getDoctrine()->getManager()->flush();
+
+            $this->addFlash('success', 'Le produit a bien été modifié');
+            return $this->redirectToRoute('product_show', ['slug' => $product->getSlug()]);
+        }
+
+
+        return $this->render('product/edit.html.twig', [
+            'form' => $form->createView(),
+            'product' => $product,
+        ]);
+    }
+
+    /**
+     * @Route("/product/{id}/delete", name="product_delete")
+     */
+    public function delete(Product $product)
+    {
+        $this->denyAccessUnlessGranted('delete', $product);
+
+        $manager = $this->getDoctrine()->getManager();
+        $manager->remove($product);
+        $manager->flush();
+
+        return $this->redirectToRoute('product_list');
+    }
 }
